@@ -6,6 +6,8 @@ signal health_changed(current: float, max_h: float)
 @export var egg_scene: PackedScene = preload("res://scenes/Egg.tscn")
 @export var max_health: float = 2500.0 # Increased base HP
 @export var score_value: int = 10000
+@export var key_color: Color = Color(1, 0, 1) # Purple background
+@export var threshold: float = 0.05
 
 var health: float
 var phase_timer: float = 0.0
@@ -13,8 +15,9 @@ var target_pos: Vector2
 var speed: float = 250.0 # Faster movement
 var player: Node2D
 
+@onready var visual: Sprite2D = $Visual
 @onready var local_bar = $HP_Canvas/LocalBar
-@onready var glow = $Effects/Glow
+@onready var glow: Sprite2D = $Effects/Glow
 @onready var orbiters = $Effects/Orbiters
 @onready var aura_particles = $Effects/AuraParticles
 
@@ -31,8 +34,36 @@ func _ready():
 	local_bar.max_value = max_health
 	local_bar.value = health
 	
+	setup_boss_sprite()
 	setup_aura()
 	pick_new_target()
+
+func setup_boss_sprite() -> void:
+	# Load color key shader
+	var shader = preload("res://assets/color_key.gdshader")
+	var mat = ShaderMaterial.new()
+	mat.shader = shader
+	mat.set_shader_parameter("key_color", key_color)
+	mat.set_shader_parameter("threshold", threshold)
+	
+	visual.material = mat
+	glow.material = mat
+	$Effects/Orbiters/Orb1.material = mat
+	$Effects/Orbiters/Orb2.material = mat
+	
+	# Boss uses plane 18 or 19
+	var index = 19
+	var atlas_path = "res://assets/planes/plane_%02d.tres" % index
+	var tex = load(atlas_path)
+	visual.texture = tex
+	visual.scale = Vector2(4, 4)
+	
+	glow.texture = tex
+	glow.scale = Vector2(5, 5)
+	
+	var orb_tex = load("res://assets/planes/plane_18.tres")
+	$Effects/Orbiters/Orb1.texture = orb_tex
+	$Effects/Orbiters/Orb2.texture = orb_tex
 
 func _process(delta):
 	# Movement: Floating aggressively

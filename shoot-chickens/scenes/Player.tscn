@@ -10,9 +10,7 @@ collision_layer = 1
 collision_mask = 0
 script = ExtResource("1_script")
 
-[node name="Visual" type="Polygon2D" parent="."]
-color = Color(0, 0.8, 1, 1)
-polygon = PackedVector2Array(0, -25, -20, 15, 0, 5, 20, 15)
+[node name="Visual" type="Sprite2D" parent="."]
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 1

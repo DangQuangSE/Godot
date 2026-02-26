@@ -71,10 +71,15 @@ text = "NEW GAME"
 layout_mode = 2
 text = "CONTINUE"
 
+[node name="ChangePlaneBtn" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "CHANGE PLANE"
+
 [node name="QuitBtn" type="Button" parent="Panel/VBox"]
 layout_mode = 2
 text = "QUIT"
 
 [connection signal="pressed" from="Panel/VBox/StartBtn" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Panel/VBox/LoadBtn" to="." method="_on_load_pressed"]
+[connection signal="pressed" from="Panel/VBox/ChangePlaneBtn" to="." method="_on_change_plane_pressed"]
 [connection signal="pressed" from="Panel/VBox/QuitBtn" to="." method="_on_quit_pressed"]

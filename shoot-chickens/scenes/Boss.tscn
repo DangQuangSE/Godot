@@ -31,10 +31,8 @@ script = ExtResource("1_script")
 
 [node name="Effects" type="Node2D" parent="."]
 
-[node name="Glow" type="Polygon2D" parent="Effects"]
+[node name="Glow" type="Sprite2D" parent="Effects"]
 modulate = Color(1, 0, 0.5, 0.3)
-scale = Vector2(4, 4)
-polygon = PackedVector2Array(0, -35, -35, 0, 0, 35, 35, 0)
 
 [node name="AuraParticles" type="GPUParticles2D" parent="Effects"]
 amount = 30
@@ -43,36 +41,16 @@ lifetime = 1.5
 
 [node name="Orbiters" type="Node2D" parent="Effects"]
 
-[node name="Orb1" type="ColorRect" parent="Effects/Orbiters"]
-offset_left = 80.0
-offset_right = 95.0
-offset_bottom = 15.0
-color = Color(1, 1, 0, 1)
+[node name="Orb1" type="Sprite2D" parent="Effects/Orbiters"]
+position = Vector2(87, 7)
+scale = Vector2(0.5, 0.5)
 
-[node name="Orb2" type="ColorRect" parent="Effects/Orbiters"]
-offset_left = -95.0
-offset_right = -80.0
-offset_bottom = 15.0
-color = Color(0, 1, 1, 1)
+[node name="Orb2" type="Sprite2D" parent="Effects/Orbiters"]
+position = Vector2(-87, 7)
+scale = Vector2(0.5, 0.5)
 
-[node name="Visual" type="Polygon2D" parent="."]
+[node name="Visual" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
-color = Color(1, 0.1, 0.4, 1)
-polygon = PackedVector2Array(0, -30, -30, 0, -20, 30, 0, 15, 20, 30, 30, 0)
-
-[node name="EyeL" type="ColorRect" parent="Visual"]
-offset_left = -12.0
-offset_top = -10.0
-offset_right = -4.0
-offset_bottom = -2.0
-color = Color(1, 1, 0, 1)
-
-[node name="EyeR" type="ColorRect" parent="Visual"]
-offset_left = 4.0
-offset_top = -10.0
-offset_right = 12.0
-offset_bottom = -2.0
-color = Color(1, 1, 0, 1)
 
 [node name="HP_Canvas" type="Control" parent="."]
 layout_mode = 3

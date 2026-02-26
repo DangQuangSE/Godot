@@ -20,5 +20,8 @@ func _on_load_pressed():
 	GlobalState.should_load_save = true
 	get_tree().change_scene_to_file("res://scenes/Main.tscn")
 
+func _on_change_plane_pressed():
+	get_tree().change_scene_to_file("res://scenes/ShipSelect.tscn")
+
 func _on_quit_pressed():
 	get_tree().quit()

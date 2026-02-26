@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://dnve47dyk1jfd"]
+
+[ext_resource type="Texture2D" uid="uid://xewsvj36b2af" path="res://assets/PixelPlanes.png" id="1_planes"]
+
+[resource]
+atlas = ExtResource("1_planes")
+region = Rect2(32, 0, 32, 32)

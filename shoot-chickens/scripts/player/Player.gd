@@ -7,6 +7,8 @@ signal player_hit(pos: Vector2)
 @export var shoot_cooldown: float = 0.18
 @export var invuln_time: float = 1.0
 @export var lives: int = 3
+@export var key_color: Color = Color(1, 0, 1) # Purple background
+@export var threshold: float = 0.05
 
 var weapon_level: int = 1 # 1: Single, 2: Triple
 var drone_count: int = 0 # 0, 1, or 2 drones
@@ -15,13 +17,27 @@ var is_invulnerable: bool = false
 var shoot_timer: float = 0.0
 var active: bool = true
 
-@onready var visual = $Visual
+@onready var visual: Sprite2D = $Visual
 @onready var hitbox = $Hitbox
 
 func _ready() -> void:
 	add_to_group("player")
 	hitbox.area_entered.connect(_on_area_entered)
 	hitbox.body_entered.connect(_on_body_entered)
+	setup_sprite()
+
+func setup_sprite() -> void:
+	# Load color key shader
+	var shader = preload("res://assets/color_key.gdshader")
+	var mat = ShaderMaterial.new()
+	mat.shader = shader
+	mat.set_shader_parameter("key_color", key_color)
+	mat.set_shader_parameter("threshold", threshold)
+	visual.material = mat
+	
+	# Apply selected ship texture
+	visual.texture = GameState.get_ship_texture()
+	visual.scale = Vector2(2, 2)
 
 func _process(delta: float) -> void:
 	if not active: return
