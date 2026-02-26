@@ -1,0 +1,36 @@
+# =========================
+# Godot 4.x
+# =========================
+
+# Godot cache & import data
+.import/
+.godot/
+
+# Export templates cache
+export_presets.cfg
+
+# Mono / C# build (if used)
+.mono/
+bin/
+obj/
+
+# Visual Studio / Rider
+.vscode/
+.idea/
+*.csproj
+*.sln
+*.user
+*.mono
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Crash dumps
+*.dmp
+
+# Temp files
+*.tmp

@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/UI.tscn" id="2_ui"]
+[ext_resource type="Script" path="res://scripts/core/GameManager.gd" id="3_gm"]
+[ext_resource type="Script" path="res://scripts/core/EnemySpawner.gd" id="4_spawner"]
+[ext_resource type="Script" path="res://scripts/core/ScreenShake.gd" id="5_shake"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 800.0
+offset_bottom = 900.0
+color = Color(0.05, 0.05, 0.1, 1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+
+[node name="ScreenShake" type="Node" parent="Camera2D"]
+script = ExtResource("5_shake")
+
+[node name="UI" parent="." instance=ExtResource("2_ui")]
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("3_gm")
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource("4_spawner")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(400, 800)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Bullets" type="Node2D" parent="."]
+
+[node name="Effects" type="Node2D" parent="."]
