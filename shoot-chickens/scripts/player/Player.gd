@@ -86,12 +86,13 @@ func spawn_player_bullet(pos: Vector2, angle: float = 0.0) -> void:
 func apply_item(type: int) -> void:
 	match type:
 		0: # BULLET_UPGRADE (W)
-			weapon_level = min(weapon_level + 1, 7) # Max 7 bullets fan
+			weapon_level = min(weapon_level + 1, 5) # Max 5 bullets
 		1: # DRONE_UPGRADE (D)
 			drone_count = min(drone_count + 1, 2)
 		2: # EXTRA_LIFE (H)
-			lives += 1
-			lives_changed.emit(lives)
+			if lives < 5:
+				lives += 1
+				lives_changed.emit(lives)
 		3: # BULLET_TYPE_CHANGE (B)
 			var new_type = current_bullet_type
 			while new_type == current_bullet_type:

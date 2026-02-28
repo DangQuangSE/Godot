@@ -77,12 +77,6 @@ func _on_lives_changed(new_lives: int) -> void:
 		trigger_game_over()
 
 func _on_wave_cleared() -> void:
-	# Reward: increase player lives after clearing a wave
-	var bonus_lives = int(ceil(current_wave * 0.5))
-	player.lives += bonus_lives
-	lives = player.lives
-	player.lives_changed.emit(player.lives)
-	ui.update_lives(lives)
 	
 	current_wave += 1
 	SaveSystem.save_game(score, current_wave, lives)
