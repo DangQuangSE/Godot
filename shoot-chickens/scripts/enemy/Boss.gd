@@ -57,9 +57,11 @@ func setup_boss_sprite() -> void:
 	var tex = load(atlas_path)
 	visual.texture = tex
 	visual.scale = Vector2(4, 4)
+	visual.rotation = PI # Face downward toward player
 	
 	glow.texture = tex
 	glow.scale = Vector2(5, 5)
+	glow.rotation = PI # Match boss rotation
 	
 	var orb_tex = load("res://assets/planes/plane_18.tres")
 	$Effects/Orbiters/Orb1.texture = orb_tex

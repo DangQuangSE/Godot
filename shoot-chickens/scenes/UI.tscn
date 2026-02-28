@@ -1,13 +1,93 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/UI.gd" id="1_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss"]
-bg_color = Color(0.8, 0, 0.2, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+bg_color = Color(0.9, 0.1, 0.2, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss_bg"]
+bg_color = Color(0.15, 0.05, 0.05, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud"]
+bg_color = Color(0.05, 0.05, 0.15, 0.7)
+border_width_bottom = 2
+border_color = Color(0.3, 0.5, 1.0, 0.4)
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+content_margin_left = 15.0
+content_margin_right = 15.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.05, 0.05, 0.15, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.5, 1.0, 0.6)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0.1, 0.2, 0.5, 0.3)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
+bg_color = Color(0.15, 0.2, 0.4, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.6, 1.0, 0.5)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0.2, 0.3, 0.6, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.5, 0.7, 1.0, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+bg_color = Color(0.1, 0.15, 0.35, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6, 0.8, 1.0, 1.0)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
 
 [node name="UI" type="CanvasLayer"]
 process_mode = 3
@@ -21,44 +101,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PausePanel" type="Panel" parent="Control"]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -100.0
-offset_right = 150.0
-offset_bottom = 100.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBox" type="VBoxContainer" parent="Control/PausePanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
-
-[node name="Title" type="Label" parent="Control/PausePanel/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "PAUSED"
-horizontal_alignment = 1
-
-[node name="ResumeBtn" type="Button" parent="Control/PausePanel/VBox"]
-layout_mode = 2
-text = "RESUME"
-
-[node name="MenuBtn" type="Button" parent="Control/PausePanel/VBox"]
-layout_mode = 2
-text = "BACK TO MENU"
-
 [node name="TopBar" type="HBoxContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 10
@@ -66,18 +108,25 @@ anchor_right = 1.0
 offset_bottom = 50.0
 grow_horizontal = 2
 alignment = 1
-theme_override_constants/separation = 50
+theme_override_constants/separation = 30
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud")
 
 [node name="ScoreLabel" type="Label" parent="Control/TopBar"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1.0, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 18
 text = "SCORE: 0"
 
 [node name="LivesLabel" type="Label" parent="Control/TopBar"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1.0, 0.3, 0.4, 1)
+theme_override_font_sizes/font_size = 18
 text = "LIVES: 3"
 
 [node name="WaveLabel" type="Label" parent="Control/TopBar"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1.0, 1)
+theme_override_font_sizes/font_size = 18
 text = "WAVE: 1"
 
 [node name="BossHealth" type="VBoxContainer" parent="Control"]
@@ -86,23 +135,104 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -200.0
+offset_left = -250.0
 offset_top = 60.0
-offset_right = 200.0
-offset_bottom = 100.0
+offset_right = 250.0
+offset_bottom = 110.0
 grow_horizontal = 2
 
 [node name="Label" type="Label" parent="Control/BossHealth"]
 layout_mode = 2
-text = "BOSS HEALTH"
+theme_override_colors/font_color = Color(1.0, 0.2, 0.3, 1)
+theme_override_font_sizes/font_size = 16
+text = "BOSS"
 horizontal_alignment = 1
 
 [node name="ProgressBar" type="ProgressBar" parent="Control/BossHealth"]
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_boss")
+theme_override_styles/background = SubResource("StyleBoxFlat_boss_bg")
 value = 50.0
 show_percentage = false
+
+[node name="WaveAnnounce" type="Label" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -60.0
+offset_right = 300.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.2, 0.5, 0.8)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 48
+text = "WAVE 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PausePanel" type="Panel" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -130.0
+offset_right = 180.0
+offset_bottom = 130.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="Control/PausePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Title" type="Label" parent="Control/PausePanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.7, 1.0, 1)
+theme_override_font_sizes/font_size = 36
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="ResumeBtn" type="Button" parent="Control/PausePanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1.0, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+text = "RESUME"
+
+[node name="MenuBtn" type="Button" parent="Control/PausePanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1.0, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+text = "BACK TO MENU"
 
 [node name="GameOverPanel" type="Panel" parent="Control"]
 visible = false
@@ -112,45 +242,65 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -100.0
-offset_right = 150.0
-offset_bottom = 100.0
+offset_left = -200.0
+offset_top = -160.0
+offset_right = 200.0
+offset_bottom = 160.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
 [node name="VBox" type="VBoxContainer" parent="Control/GameOverPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 14
 alignment = 1
 
 [node name="Title" type="Label" parent="Control/GameOverPanel/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme_override_colors/font_color = Color(1.0, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 38
 text = "GAME OVER"
 horizontal_alignment = 1
 
 [node name="FinalScoreLabel" type="Label" parent="Control/GameOverPanel/VBox"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1.0, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 22
 text = "FINAL SCORE: 0"
 horizontal_alignment = 1
 
 [node name="Hint" type="Label" parent="Control/GameOverPanel/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_color = Color(0.5, 0.6, 0.8, 1)
+theme_override_font_sizes/font_size = 14
 text = "Press R to Restart"
 horizontal_alignment = 1
 
 [node name="RestartBtn" type="Button" parent="Control/GameOverPanel/VBox"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1.0, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 text = "RESTART"
 
 [node name="MenuBtn" type="Button" parent="Control/GameOverPanel/VBox"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1.0, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 text = "BACK TO MENU"
 
 [connection signal="pressed" from="Control/GameOverPanel/VBox/RestartBtn" to="." method="_on_restart_pressed"]

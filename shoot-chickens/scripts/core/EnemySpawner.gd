@@ -12,13 +12,14 @@ signal enemy_killed(points: int, pos: Vector2)
 @export var speed_per_wave: float = 15.0
 @export var drop_down_step: float = 20.0
 @export var egg_rate_base: float = 1.2 # Lower is faster
-@export var egg_rate_scaling: float = 0.08
+@export var egg_rate_scaling: float = 0.15 # Faster scaling for harder waves
 
 var current_wave: int = 1
 var move_direction: int = 1 # 1 = Right, -1 = Left
 var current_speed: float = 80.0
 var egg_timer: float = 0.0
 var items_spawned_this_wave: int = 0
+var item_spawn_timer: float = 10.0 # Timer for random item from top of screen
 
 func _process(delta: float) -> void:
 	if get_child_count() == 0:
@@ -40,6 +41,12 @@ func _process(delta: float) -> void:
 	if egg_timer <= 0:
 		spawn_egg()
 		reset_egg_timer()
+	
+	# Random item spawn from top of screen
+	item_spawn_timer -= delta
+	if item_spawn_timer <= 0:
+		spawn_item_from_top()
+		item_spawn_timer = randf_range(8.0, 15.0)
 
 func spawn_wave(wave: int) -> void:
 	current_wave = wave
@@ -105,11 +112,17 @@ func spawn_egg() -> void:
 	var enemies = get_children()
 	if enemies.is_empty(): return
 	
-	var shooter = enemies.pick_random()
-	var egg = egg_scene.instantiate()
-	# Add to Main's Bullets container (parent's sibling)
-	get_node("../Bullets").add_child(egg)
-	egg.global_position = shooter.global_position
+	# More shooters fire as waves progress (1 + wave/3, max 5)
+	var num_shooters = min(1 + int(current_wave / 3), min(5, enemies.size()))
+	var used_shooters = []
+	for i in range(num_shooters):
+		var shooter = enemies.pick_random()
+		while shooter in used_shooters and used_shooters.size() < enemies.size():
+			shooter = enemies.pick_random()
+		used_shooters.append(shooter)
+		var egg = egg_scene.instantiate()
+		get_node("../Bullets").add_child(egg)
+		egg.global_position = shooter.global_position
 
 func reset_egg_timer() -> void:
 	var rate = max(0.3, egg_rate_base - (current_wave * egg_rate_scaling))
@@ -123,3 +136,9 @@ func get_formation_bounds() -> Dictionary:
 		if global_x < min_x: min_x = global_x
 		if global_x > max_x: max_x = global_x
 	return {"min_x": min_x, "max_x": max_x}
+
+func spawn_item_from_top() -> void:
+	var item = item_scene.instantiate()
+	get_parent().add_child(item)
+	var view_width = get_viewport_rect().size.x
+	item.global_position = Vector2(randf_range(40, view_width - 40), -30)
