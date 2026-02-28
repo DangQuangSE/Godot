@@ -19,10 +19,11 @@ func setup_egg_sprite() -> void:
 	mat.set_shader_parameter("threshold", threshold)
 	visual.material = mat
 	
-	# Use plane_18 as base for egg
-	var tex = load("res://assets/planes/plane_18.tres")
+	# Use bullet 02 sprite for enemy projectile
+	var tex = load("res://assets/bullet/02.png")
 	visual.texture = tex
 	visual.scale = Vector2(0.5, 0.5)
+	visual.rotation = PI # Rotate to face downward
 
 func _process(delta: float) -> void:
 	position.y += speed * delta

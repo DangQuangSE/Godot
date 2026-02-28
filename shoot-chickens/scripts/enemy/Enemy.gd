@@ -27,6 +27,7 @@ func setup_enemy_sprite() -> void:
 	var atlas_path = "res://assets/planes/plane_%02d.tres" % index
 	visual.texture = load(atlas_path)
 	visual.scale = Vector2(2, 2)
+	visual.rotation = PI # Face downward toward player
 
 func die() -> void:
 	enemy_killed.emit(score_value, global_position)

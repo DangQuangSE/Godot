@@ -12,6 +12,7 @@ signal player_hit(pos: Vector2)
 
 var weapon_level: int = 1 # 1: Single, 2: Triple
 var drone_count: int = 0 # 0, 1, or 2 drones
+var current_bullet_type: int = 1 # 1-12, bullet sprite type
 var can_shoot: bool = true
 var is_invulnerable: bool = false
 var shoot_timer: float = 0.0
@@ -61,6 +62,7 @@ func _process(delta: float) -> void:
 
 func shoot() -> void:
 	shoot_timer = shoot_cooldown
+	SoundManager.play("shoot")
 	
 	# Stackable fan shot: fires weapon_level number of bullets
 	var start_angle = -0.1 * (weapon_level - 1)
@@ -76,6 +78,7 @@ func shoot() -> void:
 
 func spawn_player_bullet(pos: Vector2, angle: float = 0.0) -> void:
 	var b = bullet_scene.instantiate()
+	b.bullet_type = current_bullet_type
 	get_node("../Bullets").add_child(b)
 	b.global_position = pos
 	b.rotation = angle
@@ -89,6 +92,11 @@ func apply_item(type: int) -> void:
 		2: # EXTRA_LIFE (H)
 			lives += 1
 			lives_changed.emit(lives)
+		3: # BULLET_TYPE_CHANGE (B)
+			var new_type = current_bullet_type
+			while new_type == current_bullet_type:
+				new_type = randi_range(1, 12)
+			current_bullet_type = new_type
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy_bullets"):

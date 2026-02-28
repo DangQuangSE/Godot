@@ -4,6 +4,8 @@ extends Area2D
 @export var key_color: Color = Color(1, 0, 1) # Purple background
 @export var threshold: float = 0.05
 
+var bullet_type: int = 1 # 1-12, corresponds to assets/bullet/01.png - 12.png
+
 @onready var visual: Sprite2D = $Visual
 
 func _ready() -> void:
@@ -19,10 +21,10 @@ func setup_bullet_sprite() -> void:
 	mat.set_shader_parameter("threshold", threshold)
 	visual.material = mat
 	
-	# Use plane_00 (or something) and scale it down for bullet
-	var tex = load("res://assets/planes/plane_00.tres")
-	visual.texture = tex
-	visual.scale = Vector2(0.3, 0.3)
+	# Load bullet sprite based on bullet_type (1-12)
+	var tex_path = "res://assets/bullet/%02d.png" % bullet_type
+	visual.texture = load(tex_path)
+	visual.scale = Vector2(0.5, 0.5)
 
 func _process(delta: float) -> void:
 	position += Vector2.UP.rotated(rotation) * speed * delta

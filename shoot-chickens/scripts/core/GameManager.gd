@@ -4,6 +4,7 @@ extends Node
 @onready var player = $"../Player"
 @onready var ui = $"../UI"
 @onready var shaker = $"../Camera2D/ScreenShake"
+@onready var bg_manager = $"../BackgroundManager"
 
 var score: int = 0
 var lives: int = 3
@@ -35,6 +36,7 @@ func load_game_data() -> void:
 	ui.update_score(score)
 	ui.update_lives(lives)
 	ui.update_wave(current_wave)
+	_apply_wave_theme(current_wave)
 	spawner.spawn_wave(current_wave)
 
 func start_game() -> void:
@@ -45,6 +47,8 @@ func start_game() -> void:
 	ui.update_score(score)
 	ui.update_lives(lives)
 	ui.update_wave(current_wave)
+	_apply_wave_theme(current_wave)
+	SoundManager.play("wave_start")
 	spawner.spawn_wave(current_wave)
 	SaveSystem.save_game(score, current_wave, lives)
 
@@ -59,12 +63,12 @@ func _on_enemy_killed(points: int, pos: Vector2) -> void:
 	score += points
 	ui.update_score(score)
 	ExplosionFactory.spawn_explosion($"../Effects", pos, false)
+	SoundManager.play("explosion")
 
 func _on_player_hit(pos: Vector2) -> void:
 	shaker.shake(15.0, 0.4)
 	ExplosionFactory.spawn_explosion($"../Effects", pos, true)
-	# Logic for SFX stub
-	play_sfx("hit")
+	SoundManager.play("player_hit")
 
 func _on_lives_changed(new_lives: int) -> void:
 	lives = new_lives
@@ -73,25 +77,38 @@ func _on_lives_changed(new_lives: int) -> void:
 		trigger_game_over()
 
 func _on_wave_cleared() -> void:
+	# Reward: increase player lives after clearing a wave
+	var bonus_lives = int(ceil(current_wave * 0.5))
+	player.lives += bonus_lives
+	lives = player.lives
+	player.lives_changed.emit(player.lives)
+	ui.update_lives(lives)
+	
 	current_wave += 1
 	SaveSystem.save_game(score, current_wave, lives)
 	await get_tree().create_timer(1.5).timeout
 	if not game_over:
 		ui.update_wave(current_wave)
+		_apply_wave_theme(current_wave)
+		# Play appropriate sound for wave type
+		if current_wave % 2 == 0:
+			SoundManager.play("boss_alert")
+		else:
+			SoundManager.play("wave_start")
 		spawner.spawn_wave(current_wave)
+
+func _apply_wave_theme(wave: int) -> void:
+	if bg_manager:
+		bg_manager.set_wave_theme(wave)
 
 func trigger_game_over() -> void:
 	game_over = true
 	player.disable()
 	ui.show_game_over(score)
-	SaveSystem.save_game(0, 1, 3) # Reset current run save on actual game over
+	SaveSystem.save_game(0, 1, 3)
 	SaveSystem.save_high_score(score)
 
 func _process(_delta: float) -> void:
 	if game_over:
 		if Input.is_key_pressed(KEY_R):
 			get_tree().reload_current_scene()
-
-func play_sfx(_type: String) -> void:
-	# STUB for user to add AudioStreamPlayer later
-	pass
